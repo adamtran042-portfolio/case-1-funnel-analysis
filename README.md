@@ -19,6 +19,10 @@ Prioritize scaling traffic and optimization for categories with strong end-to-en
 - `python/core_analysis.ipynb` – Python analysis and visualization
 - `outputs/` – figures referenced in the portfolio
 
+## Outputs
+- Share of total views by category
+- View → purchase conversion by category
+
 ## Notes
 Environment setup, data ingestion, and database configuration steps are intentionally omitted.  
 This repository focuses on analysis logic and decision-making.
