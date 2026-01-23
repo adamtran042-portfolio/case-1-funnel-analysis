@@ -20,10 +20,10 @@ Prioritize scaling traffic and optimization for categories with strong end-to-en
 - Low-volume categories lack sufficient signal and are classified as “more data required.”
 
 ## Repo Structure
-- `sql/core_analysis.sql` – core funnel query
-- `python/core_analysis.ipynb` – funnel aggregation and visualization
-- `outputs/share_of_total_views_by_category.png` – category share of total views
-- `outputs/view_to_purchase_conversion_by_category.png` – view → purchase conversion by category
+- `sql/core_analysis.sql` – Core funnel query
+- `python/core_analysis.ipynb` – Funnel aggregation and visualization
+- `outputs/share_of_total_views_by_category.png` – Category share of total views
+- `outputs/view_to_purchase_conversion_by_category.png` – View → purchase conversion by category
 
 ## Notes
 This repository focuses on analysis logic and decision-making.  
