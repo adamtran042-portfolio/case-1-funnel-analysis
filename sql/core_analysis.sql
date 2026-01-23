@@ -20,7 +20,7 @@ WITH base_events AS (
         e.user_id,
         CASE
             WHEN e.category_code IS NULL OR TRIM(SUBSTRING_INDEX(e.category_code, '.', 1)) = ''
-                THEN 'unclassified'
+                THEN 'Unclassified'
             ELSE SUBSTRING_INDEX(e.category_code, '.', 1)
         END AS primary_category,
         e.event_type
