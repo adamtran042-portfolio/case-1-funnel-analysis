@@ -13,8 +13,7 @@ CREATE TABLE IF NOT EXISTS events (
     price DECIMAL(10,2),
     user_id VARCHAR(128),
     user_session VARCHAR(64)
-);
-
+)
 WITH base_events AS (
     SELECT
         e.user_id,
@@ -23,38 +22,56 @@ WITH base_events AS (
                 THEN 'Unclassified'
             ELSE SUBSTRING_INDEX(e.category_code, '.', 1)
         END AS primary_category,
-        e.event_type
+        e.event_type,
+        e.price
     FROM events e
+    WHERE e.user_id IS NOT NULL
+      AND e.event_type IN ('view', 'cart', 'purchase')
 ),
-funnel_table AS (
-    -- user-level funnel flags per category
+user_category_funnel AS (
     SELECT
         user_id,
         primary_category,
-        MAX(event_type = 'view')     AS views,
-        MAX(event_type = 'cart')     AS carts,
-        MAX(event_type = 'purchase') AS purchases
+        MAX(event_type = 'view') AS view_flag,
+        MAX(event_type = 'cart') AS cart_flag,
+        MAX(event_type = 'purchase') AS purchase_flag
     FROM base_events
     GROUP BY user_id, primary_category
 ),
+category_counts AS (
+    SELECT
+        primary_category,
+        SUM(view_flag) AS total_view,
+        SUM(cart_flag) AS total_cart,
+        SUM(purchase_flag) AS total_purchase
+    FROM user_category_funnel
+    GROUP BY primary_category
+),
+category_revenue AS (
+    SELECT
+        primary_category,
+        SUM(CASE WHEN event_type = 'view' THEN price ELSE 0 END) AS potential_revenue,
+        SUM(CASE WHEN event_type = 'purchase' THEN price ELSE 0 END) AS realized_revenue
+    FROM base_events
+    GROUP BY primary_category
+),
 totals AS (
-    SELECT SUM(views) AS total_views
-    FROM funnel_table
+    SELECT SUM(total_view) AS total_views
+    FROM category_counts
 )
 SELECT
-    f.primary_category,
-    SUM(f.views)     AS total_view,
-    SUM(f.carts)     AS total_cart,
-    SUM(f.purchases) AS total_purchase,
-
-    -- Conversion rates (safe divide)
-    SUM(f.carts)     / NULLIF(SUM(f.views), 0)     * 100 AS view_to_cart,
-    SUM(f.purchases) / NULLIF(SUM(f.carts), 0)     * 100 AS cart_to_purchase,
-    SUM(f.purchases) / NULLIF(SUM(f.views), 0)     * 100 AS view_to_purchase,
-
-    -- Share of attention
-    SUM(f.views) / NULLIF(t.total_views, 0) * 100 AS percentage_of_total_views
-FROM funnel_table f
-CROSS JOIN totals t
-GROUP BY f.primary_category, t.total_views
-ORDER BY total_view DESC;
+    c.primary_category,
+    c.total_view,
+    c.total_cart,
+    c.total_purchase,
+    c.total_cart/NULLIF(c.total_view, 0)*100 AS view_to_cart,
+    c.total_purchase/NULLIF(c.total_cart, 0)*100 AS cart_to_purchase,
+    c.total_purchase/NULLIF(c.total_view, 0)*100 AS view_to_purchase,
+    c.total_view/NULLIF(t.total_views, 0)*100 AS percentage_of_total_views,
+    r.potential_revenue,
+    r.realized_revenue
+FROM category_counts c
+JOIN totals t
+JOIN category_revenue r
+  ON r.primary_category = c.primary_category
+ORDER BY c.total_view DESC;
