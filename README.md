@@ -11,7 +11,7 @@ Prioritize scaling traffic and optimization for categories with strong end-to-en
 - Public Kaggle dataset (anonymized)
 
 ## Analysis Overview
-- SQL used to construct a user-level category funnel (view → cart → purchase).
+- SQL used to construct a user-level funnel across product categories (view → cart → purchase).
 - Python used to aggregate funnel metrics, group low-volume categories, and visualize conversion performance.
 
 ## Key Findings
