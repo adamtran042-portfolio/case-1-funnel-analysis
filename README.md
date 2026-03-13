@@ -24,9 +24,9 @@ Prioritize scaling traffic and optimization for categories with strong end-to-en
 - `sql/core_analysis.sql` - Core funnel query
 - `python/core_analysis.ipynb` - Funnel aggregation and visualization
 - `Power BI/Core_Analysis_PowerBI_Template.pbit` - Interactive Power BI dashboard template
+- `outputs/Power BI Dashboard.png`- Dashboard visualization used in the portfolio case
 - `outputs/share_of_total_views_by_category.png` - Category share of total views
 - `outputs/view_to_purchase_conversion_by_category.png` - View → purchase conversion by category
-- `outputs/Power BI Dashboard.png`- Dashboard visualization used in the portfolio case
 
 ## Notes
 This repository focuses on analysis logic and decision-making.  
