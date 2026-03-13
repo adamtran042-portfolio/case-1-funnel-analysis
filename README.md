@@ -13,6 +13,7 @@ Prioritize scaling traffic and optimization for categories with strong end-to-en
 ## Analysis Overview
 - SQL used to construct a user-level funnel across product categories (view → cart → purchase).
 - Python used to aggregate funnel metrics, group low-volume categories, and visualize conversion performance.
+- Power BI used to build an interactive dashboard that highlights funnel drop off, category traffic share, and purchase share to support business facing interpretation.
 
 ## Key Findings
 - Revenue and conversions are concentrated in a small number of high-performing categories.
@@ -20,10 +21,12 @@ Prioritize scaling traffic and optimization for categories with strong end-to-en
 - Low-volume categories lack sufficient signal and are classified as “more data required.”
 
 ## Repo Structure
-- `sql/core_analysis.sql` – Core funnel query
-- `python/core_analysis.ipynb` – Funnel aggregation and visualization
-- `outputs/share_of_total_views_by_category.png` – Category share of total views
-- `outputs/view_to_purchase_conversion_by_category.png` – View → purchase conversion by category
+- `sql/core_analysis.sql` - Core funnel query
+- `python/core_analysis.ipynb` - Funnel aggregation and visualization
+- `Power BI/Core_Analysis_PowerBI_Template.pbit` - Interactive Power BI dashboard template
+- `outputs/share_of_total_views_by_category.png` - Category share of total views
+- `outputs/view_to_purchase_conversion_by_category.png` - View → purchase conversion by category
+- `outputs/Power BI Dashboard.png`- Dashboard visualization used in the portfolio case
 
 ## Notes
 This repository focuses on analysis logic and decision-making.  
